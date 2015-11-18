@@ -12,6 +12,7 @@ import java.lang.reflect.Method;
 import java.lang.reflect.Parameter;
 import java.util.ArrayList;
 import java.util.Collections;
+import java.util.HashSet;
 import java.util.List;
 
 /**
@@ -57,7 +58,7 @@ public class Inspector {
         List<Field> f = new ArrayList<Field>(fields);
 
         for(Field field : f)
-            if(conserve.contains(field))
+            if(!conserve.contains(field))
                 fields.remove(field);
     }
 
@@ -65,7 +66,7 @@ public class Inspector {
         List<Method> m = new ArrayList<Method>(methods);
 
         for(Method method : m)
-            if(conserve.contains(method))
+            if(!conserve.contains(method))
                 methods.remove(method);
     }
 
@@ -115,7 +116,7 @@ public class Inspector {
         List<Constructor> c = new ArrayList<Constructor>(constructors);
 
         for(Constructor constructor : c)
-            if(conserve.contains(constructor))
+            if(!conserve.contains(constructor))
                 constructors.remove(constructor);
     }
 
@@ -195,6 +196,23 @@ public class Inspector {
 
         System.out.println("Class : " + c.getSimpleName() + "\n\n {");
 
+        for(Constructor constructor : constructors) {
+            constructor.setAccessible(true);
+
+            System.out.println("Constructor {");
+
+            System.out.println("Name : " + constructor.getName());
+
+            System.out.println("Parameters - " + constructor.getParameterCount() + " {");
+            for(Parameter param : constructor.getParameters()) {
+                System.out.println("Name : " + param.getName());
+                System.out.println("Type : " + param.getType());
+            }
+            System.out.println("}");
+
+
+            System.out.println("}");
+        }
 
         System.out.println("}");
     }

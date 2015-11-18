@@ -17,7 +17,7 @@ public class PublicFieldFilter extends FieldFilter implements Filter<Field> {
         List<Field> result = new ArrayList<Field>();
 
         for(Field field : objects)
-            if(Modifier.isPublic(field.getModifiers()))
+            if(!Modifier.isPrivate(field.getModifiers()) && !Modifier.isProtected(field.getModifiers()))
                 result.add(field);
 
         return result;
