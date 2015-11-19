@@ -12,6 +12,7 @@ import com.company.inspector.filter.field.PublicFieldFilter;
 import com.company.inspector.filter.field.StaticFieldFilter;
 import com.company.inspector.filter.method.MethodFilter;
 import com.company.inspector.filter.method.PublicMethodFilter;
+import com.company.saver.ClassSaver;
 
 import java.lang.reflect.Constructor;
 import java.lang.reflect.Field;
@@ -30,17 +31,7 @@ public class Main {
         for (Class t : cf.getAllClass(Collection.class, true)) {
             g.addNode(t);
         }
-
-        //System.out.println(g.getNode(Collection.class).getSize());
-        //System.out.println(g.getNode(Collection.class).printTree());
-
-        //for (Class t : cf.getAllClass(Map.class, true)) {
-          //  g.addNode(t);
-        //}
-
-        //System.out.println(g.getNode(Collection.class).getSize());
-        //System.out.println(g.getNode(Map.class).printTree());
-
+        
         Inspector inspector = new Inspector();
 
         List<Field> fields = new ArrayList<Field>();
@@ -58,5 +49,27 @@ public class Main {
         inspector.printFields(HashSet.class, fields);
         inspector.printMethods(HashSet.class, methods);
         inspector.printConstructor(HashSet.class, constructors);
+
+        ClassSaver saver = new ClassSaver();
+        List<Class> allClasses = new ArrayList<Class>();
+        allClasses.addAll(saver.getClassOfGraphWithRoot(Collection.class, g));
+        allClasses.addAll(saver.getClassOfGraphWithRoot(Map.class, g));
+
+        List<Class> classes = new ArrayList<Class>();
+        List<Class> abstracts = new ArrayList<Class>();
+        List<Class> interfaces = new ArrayList<Class>();
+
+        for(Class c : allClasses) {
+            if(c.isInterface())
+                interfaces.add(c);
+            else if(Modifier.isAbstract(c.getModifiers()))
+                abstracts.add(c);
+            else
+                classes.add(c);
+        }
+
+        saver.savedToFile(classes, "classSaved", "Class");
+        saver.savedToFile(abstracts, "abstractSaved", "Abstract");
+        saver.savedToFile(interfaces, "interfaceSaved", "Interface");
     }
 }

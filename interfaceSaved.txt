@@ -1,0 +1,15 @@
+Interface : java.util.Collection
+Interface : java.util.Queue
+Interface : java.util.concurrent.BlockingQueue
+Interface : java.util.concurrent.BlockingDeque
+Interface : java.util.concurrent.TransferQueue
+Interface : java.util.Deque
+Interface : java.util.Set
+Interface : java.util.SortedSet
+Interface : java.util.NavigableSet
+Interface : java.util.List
+Interface : java.util.Map
+Interface : java.util.SortedMap
+Interface : java.util.NavigableMap
+Interface : java.util.concurrent.ConcurrentNavigableMap
+Interface : java.util.concurrent.ConcurrentMap
