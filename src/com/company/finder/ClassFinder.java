@@ -11,32 +11,59 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 /**
- * Created by jimmy on 09/11/15.
+ * Permet de récupérer l'ensemble des classes contenue dans un package
  */
 public class ClassFinder {
 
     public ClassFinder() {
-
     }
 
-    public List<Class> getAllClass(Class cl, Boolean filter) { // TODO Pattern Filter
+    /**
+     * Permet pour une classe donné de trouver l'ensemble de
+     * toutes les classes contenue dans le même package (et sous package)
+     * que notre classes
+     * @param cl Class : la classes que l'on utilise pour avoir notre package
+     * @param filter Boolean : si on veut filtrer les classes retourné
+     * @return List<Class>
+     */
+    public List<Class> getAllClass(Class cl, Boolean filter) {
         List<Class> goodClass = new ArrayList<Class>();
         try {
             List<Class> classes = getClassesFromPackage(cl.getPackage().getName());
-            if(filter) {
-                for(Class c : classes) {
-                    if(!c.isLocalClass() && !"".equals(c.getSimpleName()) && !c.isMemberClass()) {
+            if(filter)
+                for(Class c : classes)
+                    if(acceptClass(c))
                         goodClass.add(c);
-                    }
-                }
-            }
+            else
+                goodClass.addAll(classes);
+
         } catch (ClassNotFoundException e) {
             e.printStackTrace();
         }
         return goodClass;
     }
 
-    private static List<Class> getClassesFromPackage(String pckgname) throws ClassNotFoundException {
+
+    /**
+     * Permet de savoir si une Class respecte les critères que l'on veut pour
+     * quel soit accepté
+     *  + pas une class local
+     *  + pas une class member
+     *  + la class doit avoir un simpleName
+     * @param c : La Class que l'on veut tester si on l'accept
+     * @return boolean : le resultat de l'acceptation de la Class
+     */
+    private boolean acceptClass(Class c) {
+        return !c.isLocalClass() && !c.isMemberClass() && !"".equals(c.getSimpleName());
+    }
+
+    /**
+     * Permet d'avoir les classes contenue dans le package donné
+     * @param pckgname String : le nom du package que l'on veut explorer
+     * @return List<Class>
+     * @throws ClassNotFoundException
+     */
+    private List<Class> getClassesFromPackage(String pckgname) throws ClassNotFoundException {
         List<Class> result = new ArrayList<Class>();
         List<File> directories = new ArrayList<File>();
         Map<File, String> packageNames = null;
@@ -46,7 +73,6 @@ public class ClassFinder {
                 throw new ClassNotFoundException("Can’t get class loader.");
             }
             for (URL jarURL : ((URLClassLoader) Thread.currentThread().getContextClassLoader()).getURLs()) {
-                //System.out.println("JAR: " + jarURL.getPath());
                 getClassesInSamePackageFromJar(result, pckgname, jarURL.getPath());
                 Enumeration<URL> resources = cld.getResources(pckgname);
                 File directory = null;
@@ -85,7 +111,13 @@ public class ClassFinder {
         return result;
     }
 
-    private static void getClassesInSamePackageFromJar(List<Class> result, String packageName, String jarPath) {
+    /**
+     * Permet d'avoir l'ensemble des classes contenu dans le package que l'on veut contenu dans le jar donné
+     * @param result List<Class> le liste des classes auquel on va ajouter les classes trouvé
+     * @param packageName String : le chemin vers le package
+     * @param jarPath String : le chemin vers le jar
+     */
+    private void getClassesInSamePackageFromJar(List<Class> result, String packageName, String jarPath) {
         JarFile jarFile = null;
         try {
             jarFile = new JarFile(jarPath);
