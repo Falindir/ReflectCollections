@@ -16,27 +16,43 @@ import java.util.HashSet;
 import java.util.List;
 
 /**
- * Created by jimmy on 18/11/15.
+ * Permet d'inspecter une class afin de récuperer un ensemble d'information sur notre classe
+ *  + Field
+ *  + Method
+ *  + Constructor
+ *  mais aussi ces meme information de l'ensemble de l'arbre d'héritage
+ * L'utilisation de filtre peut être utilisé afin de peaufiner notre recherche d'information
  */
 public class Inspector {
 
     public Inspector() {
-
     }
 
+    /**
+     * Permet de récuperer tout les attributs d'une classe ainsi que ce de tout l'arbre d'héritage
+     * @param c Class : la classes a inspecté
+     * @param filters FieldFilter[] : les différents filtre à utiliser sur notre recherche
+     * @param graph DiGraph : notre structure de donnée qui contient l'ensemble de nos classes
+     * @return List<Field>
+     */
     public List<Field> inspectAllFields (Class c, FieldFilter[] filters, DiGraph graph) {
         List<Field> fields = new ArrayList<Field>();
 
-        Collections.addAll(fields, c.getDeclaredFields()); // Local public
+        Collections.addAll(fields, c.getDeclaredFields()); // récuprer l'ensemble des attributs de la class
 
+        // on va chercher les différents attributs dans les usper classe
         inspectFieldsOfSuperClass(fields, c, graph);
 
+        // on utilise les différents filtres pour affiner la recherche
         for(FieldFilter filter : filters)
             conserveFields(fields, filter.meetFilter(fields));
 
         return fields;
     }
 
+    /**
+     * permet des récupérer l'ensemble des attributs de super class de la class
+     */
     private void inspectFieldsOfSuperClass (List<Field> fields , Class c, DiGraph graph) {
 
         List<Edge> edgeSuper = graph.getNode(c).getParents();
@@ -54,6 +70,10 @@ public class Inspector {
         }
     }
 
+    /**
+     * Permet de supprimer de la liste de tout les attributs
+     * ce qui ne nous intéresse pas
+     */
     private void conserveFields (List<Field> fields, List<Field> conserve) {
         List<Field> f = new ArrayList<Field>(fields);
 
@@ -62,6 +82,10 @@ public class Inspector {
                 fields.remove(field);
     }
 
+    /**
+     * Permet de supprimer de la liste de toutes les méthodes
+     * ce qui ne nous intéresse pas
+     */
     private void conserveMethods (List<Method> methods, List<Method> conserve) {
         List<Method> m = new ArrayList<Method>(methods);
 
@@ -70,6 +94,13 @@ public class Inspector {
                 methods.remove(method);
     }
 
+    /**
+     * Permet de récuperer toutes les méthodes d'une classe ainsi que ce de tout l'arbre d'héritage
+     * @param c Class : la classes a inspecté
+     * @param filters MethodFilter[] : les différents filtre à utiliser sur notre recherche
+     * @param graph DiGraph : notre structure de donnée qui contient l'ensemble de nos classes
+     * @return List<Method>
+     */
     public List<Method> inspectAllMethods (Class c, MethodFilter[] filters, DiGraph graph) {
         List<Method> methods = new ArrayList<Method>();
 
@@ -83,6 +114,9 @@ public class Inspector {
         return methods;
     }
 
+    /**
+     * permet des récupérer l'ensemble des methods de super class de la class
+     */
     private void inspectMethodsOfSuperClass (List<Method> methods , Class c, DiGraph graph) {
         List<Edge> edgeSuper = graph.getNode(c).getParents();
 
@@ -99,6 +133,13 @@ public class Inspector {
         }
     }
 
+    /**
+     * Permet de récuperer tout les constructeur d'une classe ainsi que ce de tout l'arbre d'héritage
+     * @param c Class : la classes a inspecté
+     * @param filters ConstructorFilter[] : les différents filtre à utiliser sur notre recherche
+     * @param graph DiGraph : notre structure de donnée qui contient l'ensemble de nos classes
+     * @return List<Constructor>
+     */
     public List<Constructor> inspectAllConstructors (Class c, ConstructorFilter[] filters, DiGraph graph) {
         List<Constructor> constructors = new ArrayList<Constructor>();
 
@@ -112,6 +153,10 @@ public class Inspector {
         return constructors;
     }
 
+    /**
+     * Permet de supprimer de la liste de tout les contructeur
+     * ce qui ne nous intéresse pas
+     */
     private void conserveConstructor (List<Constructor> constructors, List<Constructor> conserve) {
         List<Constructor> c = new ArrayList<Constructor>(constructors);
 
@@ -120,6 +165,9 @@ public class Inspector {
                 constructors.remove(constructor);
     }
 
+    /**
+     * permet des récupérer l'ensemble des constructeur de super class de la class
+     */
     private void inspectConstructorsOfSuperClass (List<Constructor> constructors, Class c, DiGraph graph) {
         List<Edge> edgeSuper = graph.getNode(c).getParents();
 
@@ -136,6 +184,10 @@ public class Inspector {
         }
     }
 
+    /**
+     * Permet d'afficher les informations sur les attributs de notre
+     * class inspecté
+     */
     public void printFields(Class c, List<Field> fields) {
 
         System.out.println("Class : " + c.getSimpleName() + "\n\n {");
@@ -160,6 +212,10 @@ public class Inspector {
         System.out.println("}");
     }
 
+    /**
+     * Permet d'afficher les informations sur les méthodes de notre
+     * class inspecté
+     */
     public void printMethods(Class c, List<Method> methods) {
 
         System.out.println("Class : " + c.getSimpleName() + "\n\n {");
@@ -192,6 +248,10 @@ public class Inspector {
         System.out.println("}");
     }
 
+    /**
+     * Permet d'afficher les informations sur les constructeurs de notre
+     * class inspecté
+     */
     public void printConstructor(Class c, List<Constructor> constructors) {
 
         System.out.println("Class : " + c.getSimpleName() + "\n\n {");
