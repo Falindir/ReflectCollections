@@ -9,22 +9,27 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by jimmy on 19/11/15.
+ *
  */
 public class ClassSaver {
 
     public ClassSaver() {
-
     }
 
-    public void savedToFile(List<Class> classes, String nameFile, String name) {
+    /**
+     * Permet de sauvegarder dans un fichier.txt le nom complet de notre liste de classe
+     * @param classes : la liste des classes
+     * @param nameFile : le nom du fichier
+     * @param type : the type of classes
+     */
+    public void savedToFile(List<Class> classes, String nameFile, String type) {
         try {
             File file = new File(nameFile+".txt");
             file.createNewFile();
             FileWriter writer = new FileWriter(file, true);
 
             for(Class c : classes) {
-                writer.write(getInfoToSavedOfClass(name, c));
+                writer.write(type + " : " + c.getName());
                 writer.write("\n");
             }
 
@@ -34,33 +39,30 @@ public class ClassSaver {
         } catch (IOException e) {
             e.printStackTrace();
         }
-
-
     }
 
-    private String getInfoToSavedOfClass(String name, Class c) {
-        String result = name + " : " + c.getName();
-
-        return result;
-    }
-
+    /**
+     * Permet de récuperer la liste des classes qui ont comme racine notre classe
+     */
     public List<Class> getClassOfGraphWithRoot(Class c, DiGraph graph) {
 
         List<Node> nodes = new ArrayList<Node>();
-        Node root = graph.getNode(c);
+        Node root = graph.getNode(c); // on recup le noeud racine
         nodes.add(root);
 
-        getNode(nodes, root);
+        getNode(nodes, root); // on recup l'arbre par rapport au noeud racine
 
         List<Class> classes = new ArrayList<Class>();
         for(Node node : nodes)
-            classes.add(node.getValue());
+            classes.add(node.getValue()); // et on ajoute a notre liste la valeur de chaque noeud
 
         return classes;
     }
 
+    /**
+     * Permet de récuperer un ensemble de noeud celon une racine donnée
+     */
     private void getNode(List<Node> nodes, Node root) {
-
         for(Edge e : root.getChildren()) {
             Node temp = e.getNode();
 

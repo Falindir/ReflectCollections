@@ -30,10 +30,11 @@ public class ClassFinder {
         List<Class> goodClass = new ArrayList<Class>();
         try {
             List<Class> classes = getClassesFromPackage(cl.getPackage().getName());
-            if(filter)
-                for(Class c : classes)
-                    if(acceptClass(c))
+            if(filter) {
+                for (Class c : classes)
+                    if (acceptClass(c))
                         goodClass.add(c);
+            }
             else
                 goodClass.addAll(classes);
 
