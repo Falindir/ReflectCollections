@@ -5,30 +5,44 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Created by jimmy on 16/11/15.
+ * Permet de représenter un graphe orinenté composé de noeud
  */
 public class DiGraph {
 
+    /**
+     * La liste des noeuds du graphe
+     */
     private List<Node> nodes = new ArrayList<Node>();
 
     public DiGraph() {
-
     }
 
+    /**
+     * Permet d'ajouter un nouveau noeud à notre graphe
+     * à partir d'une classe
+     * @param c Class : la classe que l'on veut rajouter au graphe
+     */
     public void addNode(Class c) {
-        Node node = new Node(c);
+        Node node = new Node(c); // part défault on créer un nouveau noeud
 
-        if(!haveThisNode(node))
-            nodes.add(node);
+        if(!haveThisNode(node)) // on vérifie si notre noeud nes pas déjà dans notre graphe
+            nodes.add(node); // on ajoute notre noeud au graphe
         else
-            node = getNode(c);
+            node = getNode(c); // sinon on récupère le noeud dans notre graphe
 
+        // la liste qui va contenir les super classes de notre classe
         List<Class> superI = new ArrayList<Class>();
+
+        // on récupre la liste de toutes ses interfaces
+        // remarque si notre classes c est déjà une interface
+        // alors on récupère directement ses super classes
         Collections.addAll(superI, c.getInterfaces());
 
-        if(!c.isInterface())
-            superI.add(c.getSuperclass());
+        if(!c.isInterface()) // si jamais notre classe c serait une vrai classe
+            superI.add(c.getSuperclass()); // alors on récupère sa super classes
 
+        // pour sinir on ajoute tout les arếtes parent/enfant entre notre classes
+        // et ses super classes
         for(Class cl : superI) {
             Node nSI = new Node(cl);
 
@@ -45,6 +59,12 @@ public class DiGraph {
         }
     }
 
+    /**
+     * Permet de savoir si un noeud n est dans notre graphe
+     * On ne veut pas de doublon dans notre graphe
+     * @param n Node : le noeud à tester
+     * @return boolean : true si n est dans notre graphe false sinon
+     */
     public boolean haveThisNode(Node n) {
         for(Node node : nodes)
             if(node.isSameNode(n))
@@ -52,13 +72,23 @@ public class DiGraph {
         return false;
     }
 
+    /**
+     * Permet de trouver un noeud de notre graphe à partir
+     * de sa classe associé
+     * @param c Class
+     * @return Node
+     */
     public Node getNode(Class c) {
         for(Node node : nodes)
             if(node.getValue().equals(c))
                 return node;
-        return null;
+        return null; // TODO exception
     }
 
+    /**
+     * toString d'un DiGraph
+     * @return String
+     */
     @Override
     public String toString() {
         String result =  "DiGraph{";

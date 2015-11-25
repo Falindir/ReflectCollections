@@ -1,7 +1,9 @@
 package com.company.graph;
 
 /**
- * Created by jimmy on 16/11/15.
+ * Permet de définir le type d'une arète
+ * IN : entrante
+ * OUT : sortante
  */
 public enum EdgeType {
     IN,
