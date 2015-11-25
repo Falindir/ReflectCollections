@@ -6,14 +6,14 @@ import java.lang.reflect.Field;
 import java.util.List;
 
 /**
- * Created by jimmy on 18/11/15.
+ * Permet de filtrer les attributs d'une classe
  */
 public abstract class FieldFilter implements Filter<Field> {
 
 
     @Override
     public List<Field> meetFilter(List<Field> objects) {
-        return objects;
+        return objects; // comportement par défault notre retourne notre liste initiale
     }
 
 

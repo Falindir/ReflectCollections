@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by jimmy on 18/11/15.
+ * Permet de ne garder que les attributs finals
  */
 public class FinalFieldFilter extends FieldFilter implements Filter<Field> {
 
