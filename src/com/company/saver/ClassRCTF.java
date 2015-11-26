@@ -95,6 +95,18 @@ public class ClassRCTF {
 
         return false;
     }
+    
+    private String getMethodSignature(Method m) {
+        String name = m.getName();
+        String returnType = m.getReturnType().getName();
+        List<String> parametersType = new ArrayList<String>();
+        
+        for (Class parameterType : m.getParameterTypes()) {
+        	parametersType.add(parameterType.getName());
+        }
+        
+    	return returnType + " " + name + parametersType.toString();
+    }
 
     /**
      * Permet de récuperer pour une classe donnée l'ensemble de nom ses propriétés
@@ -106,9 +118,11 @@ public class ClassRCTF {
         List<Method> tempMethods = new ArrayList<Method>();
         tempMethods.addAll(inspector.inspectAllMethods(c, filtersM, g));
         for (Method m : tempMethods) {
-            String name = m.getName();
-            if (!results.contains(name))
-                results.add(name);
+        	//String methodString = m.getName();
+        	String methodString = getMethodSignature(m);
+        	
+            if (!results.contains(methodString))
+                results.add(methodString);
         }
 
         List<Field> tempField = new ArrayList<Field>();
