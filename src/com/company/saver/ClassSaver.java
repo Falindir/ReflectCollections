@@ -13,7 +13,13 @@ import java.util.List;
  */
 public class ClassSaver {
 
+    private boolean interfaceNotChildOfRoot = false;
+
     public ClassSaver() {
+    }
+
+    public ClassSaver(boolean interfaceNotChildOfRoot) {
+        this.interfaceNotChildOfRoot = interfaceNotChildOfRoot;
     }
 
     /**
@@ -63,6 +69,17 @@ public class ClassSaver {
      * Permet de récuperer un ensemble de noeud celon une racine donnée
      */
     private void getNode(List<Node> nodes, Node root) {
+
+        if(interfaceNotChildOfRoot) {
+            for(Edge e : root.getParents()) {
+                Node temp = e.getNode();
+
+                if(!nodes.contains(temp))
+                    if(temp.getValue().isInterface())
+                        nodes.add(temp);
+            }
+        }
+
         for(Edge e : root.getChildren()) {
             Node temp = e.getNode();
 

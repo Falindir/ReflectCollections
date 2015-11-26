@@ -34,8 +34,8 @@ public class Main {
 
         ClassSaver saver = new ClassSaver();
         List<Class> allClasses = new ArrayList<Class>();
-        allClasses.addAll(saver.getClassOfGraphWithRoot(Collection.class, g));
-        allClasses.addAll(saver.getClassOfGraphWithRoot(Map.class, g));
+        fusion(allClasses, saver.getClassOfGraphWithRoot(Collection.class, g));
+        fusion(allClasses, saver.getClassOfGraphWithRoot(Map.class, g));
 
         List<Class> classes = new ArrayList<Class>();
         List<Class> abstracts = new ArrayList<Class>();
@@ -58,27 +58,45 @@ public class Main {
         MethodFilter[] filterM = {new PublicMethodFilter()};
         FieldFilter[] filterF = {new StaticFieldFilter(), new PublicFieldFilter(), new FinalFieldFilter()};
 
-        ClassRCTF saverRCFT = new ClassRCTF(allClasses, filterM, filterF, g);
+        ClassRCTF saverRCFT = new ClassRCTF(classes, filterM, filterF, g, false);
         saverRCFT.initTable();
 
         try {
-            saverRCFT.writeTable("tableAll.rcft");
+            saverRCFT.writeTable("tableConcrete.rcft");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        ClassRCTF saverRCFT2 = new ClassRCTF(classes, filterM, filterF, g);
+        ClassRCTF saverRCFT2 = new ClassRCTF(classes, filterM, filterF, g, true);
         saverRCFT2.initTable();
 
         try {
-            saverRCFT2.writeTable("tableConcrete.rcft");
+            saverRCFT2.writeTable("tableConcreteSignature.rcft");
         } catch (IOException e) {
             e.printStackTrace();
         }
 
-        
+        ClassSaver saver2 = new ClassSaver(true);
+        List<Class> allClasses2 = new ArrayList<Class>();
+        fusion(allClasses2, saver2.getClassOfGraphWithRoot(Collection.class, g));
+        fusion(allClasses2, saver2.getClassOfGraphWithRoot(Map.class, g));
+
+        ClassRCTF saverRCFT3 = new ClassRCTF(allClasses2, filterM, filterF, g, true);
+        saverRCFT3.initTable();
+
+        try {
+            saverRCFT3.writeTable("tableAllSignatureInterface.rcft");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
 
         System.out.println("Main Finish");
 
+    }
+
+    private static void fusion(List<Class> a, List<Class> b) {
+        for(Class c : b)
+            if(!a.contains(c))
+                a.add(c);
     }
 }

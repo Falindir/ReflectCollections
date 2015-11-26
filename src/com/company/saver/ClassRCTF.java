@@ -48,15 +48,21 @@ public class ClassRCTF {
     private DiGraph g;
 
     /**
+     * indique si pour les méthodes de la classe on veut la signature ou juste son nom
+     */
+    private boolean signature;
+
+    /**
      * l'inspecteur de classe
      */
     private Inspector inspector = new Inspector();
 
-    public ClassRCTF(List<Class> classes, MethodFilter[] filtersM, FieldFilter[] filtersF, DiGraph g) {
+    public ClassRCTF(List<Class> classes, MethodFilter[] filtersM, FieldFilter[] filtersF, DiGraph g, boolean signature) {
         this.classes = classes;
         this.filtersM = filtersM;
         this.filtersF = filtersF;
         this.g = g;
+        this.signature = signature;
     }
 
     /**
@@ -118,9 +124,12 @@ public class ClassRCTF {
         List<Method> tempMethods = new ArrayList<Method>();
         tempMethods.addAll(inspector.inspectAllMethods(c, filtersM, g));
         for (Method m : tempMethods) {
-        	//String methodString = m.getName();
-        	String methodString = getMethodSignature(m);
-        	
+            String methodString;
+            if(signature)
+                methodString = getMethodSignature(m);
+            else
+                methodString = m.getName();
+
             if (!results.contains(methodString))
                 results.add(methodString);
         }
