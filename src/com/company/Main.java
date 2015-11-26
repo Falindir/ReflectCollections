@@ -62,10 +62,21 @@ public class Main {
         saverRCFT.initTable();
 
         try {
-            saverRCFT.writeTable("table4.rcft");
+            saverRCFT.writeTable("tableAll.rcft");
         } catch (IOException e) {
             e.printStackTrace();
         }
+
+        ClassRCTF saverRCFT2 = new ClassRCTF(classes, filterM, filterF, g);
+        saverRCFT2.initTable();
+
+        try {
+            saverRCFT2.writeTable("tableConcrete.rcft");
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        
 
         System.out.println("Main Finish");
 

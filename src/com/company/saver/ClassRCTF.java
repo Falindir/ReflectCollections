@@ -129,8 +129,6 @@ public class ClassRCTF {
      */
     public void writeTable(String fileName) throws IOException {
         if (table == null) return;
-       // BufferedReader fc = new BufferedReader
-         //       (new InputStreamReader(System.in));
         BufferedWriter ff = new BufferedWriter
                 (new FileWriter(fileName));
 
