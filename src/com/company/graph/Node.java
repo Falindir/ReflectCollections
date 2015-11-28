@@ -7,8 +7,8 @@ import java.util.List;
 
 /**
  * Chaque noeud va contenir une classe qui lui sera propre.
- * Nous aurons donc grace au graphe la relation parents enfants
- * entre les noeuds ce qui nous permettra d'avoir la relation
+ * Nous aurons donc la relation parents enfants
+ * entre les noeuds ce qui permettra d'avoir la relation
  * d'héritage/implémentation entres les différentes classes.
  */
 public class Node {
@@ -37,7 +37,7 @@ public class Node {
     }
 
     /**
-     * @return Class : la classe contenut dans le noeud
+     * @return Class : la classe contenue dans le noeud
      */
     public Class getValue() {
         return value;
@@ -66,10 +66,10 @@ public class Node {
     }
 
     /**
-     * Deux noeud sont en effet identique si leur classe
-     * correspondente sont identique
+     * Deux noeud sont en effet identique si leurs classes
+     * correspondantes sont identiques
      * @param n : l'autre noeud à comparer à notre noeud courant
-     * @return boolean : true si deux noeuds sont identique faut sinon
+     * @return boolean : true si deux noeuds sont identiques false sinon
      */
     public boolean isSameNode(Node n) {
         return value.equals(n.getValue());
@@ -124,16 +124,6 @@ public class Node {
                 }
         return result;
     }
-
-    /*
-    public String printTree(){
-        String result = toString();
-
-        for (Edge e : children)
-            result += "\n\n" + e.getNode().printTree();
-
-        return result;
-    }*/
 
     /**
      * @return List<Edge> : la liste des arêtes vers les noeuds parents de notre noeud

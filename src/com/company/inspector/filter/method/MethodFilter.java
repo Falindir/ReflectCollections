@@ -12,7 +12,7 @@ public class MethodFilter implements Filter<Method> {
 
     @Override
     public List<Method> meetFilter(List<Method> objects) {
-        return objects; // comportement par défault notre retourne notre liste initiale
+        return objects; // comportement par défaut, retourne notre liste initiale
     }
 
 }

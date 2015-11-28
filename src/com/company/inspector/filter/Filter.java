@@ -9,8 +9,8 @@ import java.util.List;
 public interface Filter<T> {
 
     /**
-     * @param objects List<T> : notre liste initial
-     * @return List<T> : une nouvelle liste une foit filtré par notre filtre
+     * @param objects List<T> : notre liste initiale
+     * @return List<T> : une nouvelle liste une fois filtrée
      */
     public List<T> meetFilter(List<T> objects);
 

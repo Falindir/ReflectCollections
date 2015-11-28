@@ -8,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Permet de ne garder que les contructeurs public
+ * Permet de ne garder que les constructeurs public
  */
 public class PublicConstructorFilter extends ConstructorFilter implements Filter<Constructor> {
 

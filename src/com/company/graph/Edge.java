@@ -2,8 +2,8 @@ package com.company.graph;
 
 /**
  * Permet de représenter la liaison entre deux noeud
- * Mais une arête ne stocke que le noeud cible
- * Car on représente ici un graphe orinté
+ * Une arête ne stocke que le noeud cible
+ * Car on représente ici un graphe orienté
  */
 public class Edge {
 

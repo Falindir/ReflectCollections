@@ -11,7 +11,7 @@ import java.util.jar.JarEntry;
 import java.util.jar.JarFile;
 
 /**
- * Permet de récupérer l'ensemble des classes contenue dans un package
+ * Permet de récupérer l'ensemble des classes contenues dans un package
  */
 public class ClassFinder {
 
@@ -19,11 +19,10 @@ public class ClassFinder {
     }
 
     /**
-     * Permet pour une classe donné de trouver l'ensemble de
-     * toutes les classes contenue dans le même package (et sous package)
-     * que notre classes
-     * @param cl Class : la classes que l'on utilise pour avoir notre package
-     * @param filter Boolean : si on veut filtrer les classes retourné
+     * Permet pour une classe donnée de trouver l'ensemble de
+     * toutes les classes contenues dans le même package (et sous packages)
+     * @param cl Class : la classe que l'on utilise pour avoir notre package
+     * @param filter Boolean : si on veut filtrer les classes retournées
      * @return List<Class>
      */
     public List<Class> getAllClass(Class cl, Boolean filter) {
@@ -46,20 +45,20 @@ public class ClassFinder {
 
 
     /**
-     * Permet de savoir si une Class respecte les critères que l'on veut pour
-     * quel soit accepté
+     * Permet de savoir si une classe respecte les critères que l'on veut pour
+     * quelle soit acceptée
      *  + pas une class local
      *  + pas une class member
      *  + la class doit avoir un simpleName
-     * @param c : La Class que l'on veut tester si on l'accept
-     * @return boolean : le resultat de l'acceptation de la Class
+     * @param c : La classe à tester
+     * @return boolean : true si la classe est acceptée, false sinon
      */
     private boolean acceptClass(Class c) {
         return !c.isLocalClass() && !c.isMemberClass() && !"".equals(c.getSimpleName());
     }
 
     /**
-     * Permet d'avoir les classes contenue dans le package donné
+     * Permet d'avoir les classes contenues dans le package donné
      * @param pckgname String : le nom du package que l'on veut explorer
      * @return List<Class>
      * @throws ClassNotFoundException
@@ -113,8 +112,8 @@ public class ClassFinder {
     }
 
     /**
-     * Permet d'avoir l'ensemble des classes contenu dans le package que l'on veut contenu dans le jar donné
-     * @param result List<Class> le liste des classes auquel on va ajouter les classes trouvé
+     * Permet d'avoir l'ensemble des classes contenues dans le package donné
+     * @param result List<Class> la liste des classes à laquelle on va ajouter les classes trouvées
      * @param packageName String : le chemin vers le package
      * @param jarPath String : le chemin vers le jar
      */
@@ -149,4 +148,3 @@ public class ClassFinder {
         }
     }
 }
-
