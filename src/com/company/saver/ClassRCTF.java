@@ -28,12 +28,12 @@ public class ClassRCTF {
     private Boolean[][] table;
 
     /**
-     * la liste de classes
+     * la liste des classes
      */
     private List<Class> classes = new ArrayList<Class>();
 
     /**
-     * les filtres sur les method
+     * les filtres sur les methodes
      */
     private MethodFilter[] filtersM;
 
@@ -48,12 +48,12 @@ public class ClassRCTF {
     private DiGraph g;
 
     /**
-     * indique si pour les méthodes de la classe on veut la signature ou juste son nom
+     * indique si pour les méthodes de la classe on veut la signature ou juste le nom
      */
     private boolean signature;
 
     /**
-     * l'inspecteur de classe
+     * l'inspecteur de classes
      */
     private Inspector inspector = new Inspector();
 
@@ -66,10 +66,10 @@ public class ClassRCTF {
     }
 
     /**
-     * Permet d'initialisé notre table de propriété celon la liste des classes
+     * Permet d'initialiser notre table de propriété celon la liste des classes
      */
     public void initTable() {
-        for(Class c : classes) { // on recup l'ensemble de toutes les propriétés de toutes les classes
+        for(Class c : classes) { // on recupère l'ensemble de toutes les propriétés de toutes les classes
             List<String> temp = getPropertyNameOfClass(c);
             for(String s : temp)
                 if(!CharacteristicList.contains(s))
@@ -91,7 +91,7 @@ public class ClassRCTF {
     }
 
     /**
-     * Permet de savoir si une classes possède une propriété donné
+     * Permet de savoir si une classes possède une propriété donnée
      */
     private boolean haveThisProperty(Class c, String property) {
 
@@ -101,21 +101,21 @@ public class ClassRCTF {
 
         return false;
     }
-    
+
     private String getMethodSignature(Method m) {
         String name = m.getName();
         String returnType = m.getReturnType().getName();
         List<String> parametersType = new ArrayList<String>();
-        
+
         for (Class parameterType : m.getParameterTypes()) {
         	parametersType.add(parameterType.getName());
         }
-        
+
     	return returnType + " " + name + parametersType.toString();
     }
 
     /**
-     * Permet de récuperer pour une classe donnée l'ensemble de nom ses propriétés
+     * Permet de récuperer pour une classe donnée l'ensemble des noms de ses propriétés
      */
     private List<String> getPropertyNameOfClass(Class c) {
 
@@ -146,7 +146,7 @@ public class ClassRCTF {
     }
 
     /**
-     * Permet d'ecrire dans un fichier.rctf notre table de propriété pour notre liste de classes
+     * Permet d'ecrire dans un fichier.rctf notre table de propriétés pour notre liste de classes
      * @param fileName : le nom du fichier
      * @throws IOException
      */

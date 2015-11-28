@@ -5,7 +5,7 @@ import java.util.Collections;
 import java.util.List;
 
 /**
- * Permet de représenter un graphe orinenté composé de noeud
+ * Permet de représenter un graphe orienté composé de noeud
  */
 public class DiGraph {
 
@@ -20,12 +20,12 @@ public class DiGraph {
     /**
      * Permet d'ajouter un nouveau noeud à notre graphe
      * à partir d'une classe
-     * @param c Class : la classe que l'on veut rajouter au graphe
+     * @param c Class : la classe que l'on veut ajouter au graphe
      */
     public void addNode(Class c) {
-        Node node = new Node(c); // part défault on créer un nouveau noeud
+        Node node = new Node(c); // par défaut on crée un nouveau noeud
 
-        if(!haveThisNode(node)) // on vérifie si notre noeud nes pas déjà dans notre graphe
+        if(!haveThisNode(node)) // on vérifie si notre noeud n'est pas déjà dans notre graphe
             nodes.add(node); // on ajoute notre noeud au graphe
         else
             node = getNode(c); // sinon on récupère le noeud dans notre graphe
@@ -33,15 +33,15 @@ public class DiGraph {
         // la liste qui va contenir les super classes de notre classe
         List<Class> superI = new ArrayList<Class>();
 
-        // on récupre la liste de toutes ses interfaces
-        // remarque si notre classes c est déjà une interface
-        // alors on récupère directement ses super classes
+        // on récupère la liste de toutes ses interfaces
+        // remarque : si notre classe c est une interface
+        //            alors on récupère directement ses super classes
         Collections.addAll(superI, c.getInterfaces());
 
-        if(!c.isInterface()) // si jamais notre classe c serait une vrai classe
+        if(!c.isInterface()) // si jamais notre classe c est une vrai classe
             superI.add(c.getSuperclass()); // alors on récupère sa super classes
 
-        // pour sinir on ajoute tout les arếtes parent/enfant entre notre classes
+        // pour finir on ajoute toutes les arếtes parent/enfant entre notre classe
         // et ses super classes
         for(Class cl : superI) {
             Node nSI = new Node(cl);
